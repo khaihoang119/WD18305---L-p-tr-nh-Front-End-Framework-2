@@ -124,7 +124,8 @@ const Register = () => {
                                 value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
                                 message: "Email không đúng định dạng"
                             }
-                        })} />
+                        })} 
+                        />
                     {formState?.errors?.email &&
                         <small className='text-danger'>
                             {formState?.errors?.email?.message}

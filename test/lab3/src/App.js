@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
+import StudentList from './components/StudentList';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Danh sách sinh viên</h1>
+      <table className="table table-striped">
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">#</th>
+            <th scope="col">Họ và Tên</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <StudentList />
+        </tbody>
+      </table>
     </div>
   );
-}
+};
 
 export default App;
