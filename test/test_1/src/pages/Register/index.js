@@ -1,12 +1,42 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+
 const Register = () => {
     const { register, setValue, setError, formState, reset, handleSubmit, getValues } = useForm();
 
 
 
-    const registerSubmit = (value) => {
+    const registerSubmit = async (value) => {
         console.log('value === ', value);
+
+        try{
+            const res = await axios.post('http://10.82.60.26:3001/user/register',{
+                username: value?.username,
+                email: value?.email,
+                password: value?.password,
+                full_name: value?.fullname,
+            });
+            
+            console.log("res === ", res);
+            console.log("end call api");
+        }catch(err){
+            console.log('err === ', err);
+
+        }
+        // axios.post('http://10.82.60.26:3001/user/register',
+        //     {
+        //         username: value?.username,
+        //         email: value?.email,
+        //         password: value?.password,
+        //         full_name: value?.fullname,
+        //     }
+        // ).then(res => {
+        //     console.log('res === ', res);
+        // }).catch(err => {
+        //     console.log('err === ', err);
+        // });
+        // console.log("submit data");
     };
 
     return (
@@ -124,8 +154,8 @@ const Register = () => {
                                 value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i,
                                 message: "Email không đúng định dạng"
                             }
-                        })} 
-                        />
+                        })}
+                    />
                     {formState?.errors?.email &&
                         <small className='text-danger'>
                             {formState?.errors?.email?.message}

@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
 
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import {Cookies} from 'react-cookie';
 
 const Login = () => {
+    const {register, setValue, setError, formState, reset, handleSubmit, getValues} = useForm();
     // const [username, setUsername] = useState('');
     // const [password, setPassword] = useState('');
     // const usernameChange = (props) => {
@@ -27,43 +30,25 @@ const Login = () => {
     //     }   
     // }
 
-    const [errors, setErrors] = useState({
 
-    });
-    const [value, setValue] = useState({
-        username: '',
-        password: '',
-        confirmPassword: ''
-    });
-
-    const onTextChange = (props) => {
-        console.log("name === ", props.target.name);
-        console.log("value === ", props.target.value);
-        setValue({
+    const loginSubmit = async (value) => {
+       console.log('value === ', value);
+    try{
+        const res = await axios.post('http://10.82.60.26:3001/auth/login',{
             ...value,
-            [props.target.name]: props.target.value
-        })
-    }
-
-    const login = () => {
-        let errorsTemp = {};
-        Object.keys(value).map((item, index) => {
-            if (value[item]?.trim() === '') {
-                errorsTemp = {
-                    ...errorsTemp,
-                    [item]: `${item} không được để trống`
-                };
-            }
+            device:"mobile",
         });
-        setErrors(errorsTemp);
-
+        console.log("res === ", res.data);
+        let cookies = new Cookies();
+        const dateExpire = new Date();
+        dateExpire.setDate(dateExpire.getDate() + 1);
+        cookies.set('token', res?.data?.access_token, {expires:dateExpire});
+        cookies.update();
+        console.log("end call api");
+    }catch(err){
+        console.log('err === ', err);
     }
-
-    useEffect(() => {
-        console.log("value === ", value);
-    }, [value])
-
-
+    }
 
     return (
         <div className='container'>
@@ -76,20 +61,20 @@ const Login = () => {
                 <h1 className='text-primary'>Login</h1>
                 <div className='mb-3'>
                     <label className='form-label'>Username</label>
-                    <input name='username' type='text' value={value.username} className='form-control' onChange={onTextChange} />
-                    {errors.username && <small className='text-danger'>{errors.username}</small>}
+                    <input name='username' type='text' className='form-control'
+                    {...register("username")}
+                    />
+                   
                 </div>
                 <div className='mb-3'>
                     <label className='form-label'>Password</label>
-                    <input name='password' type='password' value={value.password} className='form-control' onChange={onTextChange} />
-                    {errors.password && <small className='text-danger'>{errors.password}</small>}
+                    <input name='password' type='password' className='form-control' 
+                    {...register("password")}
+                    />
+                    
                 </div>
-                <div className='mb-3'>
-                    <label className='form-label'>Confirm Password</label>
-                    <input name='confirmPassword' type='password' value={value.confirmPassword} className='form-control' onChange={onTextChange} />
-                    {errors.confirmPassword && <small className='text-danger'>{errors.confirmPassword}</small>}
-                </div>
-                <button className='btn btn-success w-100 mb-3' onClick={login} >{`Login`}</button>
+                
+                <button className='btn btn-success w-100 mb-3' onClick={handleSubmit(loginSubmit)} >Đăng nhập</button>
                 <a className='btn btn-primary w-auto me-3' href='/register'>Register</a>
             </div>
         </div>
