@@ -1,14 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-const Register = () =>{
-    const {register, setValue, setError, formState, reset, handleSubmit, getValues} = useForm();
+const Register = () => {
+    const { register, setValue, setError, formState, reset, handleSubmit, getValues } = useForm();
 
-    const registerSubmit = (value) =>{
+    const registerSubmit = (value) => {
         console.log('value === ', value);
     }
 
-    return(
+    return (
         <div className='container'>
             <div className='col-4 offset-4 p-3'>
                 <h2 className='text-primary'>Register</h2>
@@ -141,13 +141,121 @@ const Register = () =>{
                         </small>
                     }
                 </div>
-                
-                
-               
+
+                <div className='mb-3'>
+                    <label className='form-label'>Birthdate</label>
+                    <input name='birthdate' type='date' className='form-control text'
+                        {...register("birthdate", {
+                            required: {
+                                value: true,
+                                message: "birthdate không được để trống"
+                            }
+                        })}
+
+                    />
+                    {formState?.errors?.birthdate &&
+                        <small className='text-danger'>
+                            {formState?.errors?.birthdate?.message}
+                        </small>
+                    }
+                </div>
+
+                <div className='mb-3'>
+                    <label className='form-label'>Appointment</label>
+                    <input name='appointment' type='datetime-local' className='form-control text'
+                        {...register("appointment", {
+                            required: {
+                                value: true,
+                                message: "appointment không được để trống"
+                            }
+                        })}
+
+                    />
+                    {formState?.errors?.appointment &&
+                        <small className='text-danger'>
+                            {formState?.errors?.appointment?.message}
+                        </small>
+                    }
+                </div>
+
+                <div className='mb-3'>
+                    <label className='form-label'>Hobbies</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Reading
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                        <label class="form-check-label" for="flexCheckChecked">
+                            Traveling
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" />
+                        <label class="form-check-label" for="flexCheckChecked">
+                            Gaming
+                        </label>
+                    </div>
+                </div>
+                <div className='mb-3'>
+                    <label className='form-label'>Address</label>
+                    <input name='address' type='text' className='form-control text'
+                        {...register("address", {
+                            required: {
+                                value: true,
+                                message: "address không được để trống"
+                            }
+                        })}
+
+                    />
+                    {formState?.errors?.address &&
+                        <small className='text-danger'>
+                            {formState?.errors?.address?.message}
+                        </small>
+                    }
+                </div>
+                <div>
+                    <div className='mb-3 col-6'>
+                        <label className='form-label'>City</label>
+                        <input name='address' type='text' className='form-control text'
+                            {...register("address", {
+                                required: {
+                                    value: true,
+                                    message: "address không được để trống"
+                                }
+                            })}
+
+                        />
+                        {formState?.errors?.address &&
+                            <small className='text-danger'>
+                                {formState?.errors?.address?.message}
+                            </small>
+                        }
+                    </div>
+                    <div className='mb-3 col-6'>
+                        <label className='form-label'>ZIP Code</label>
+                        <input name='zipcode' type='text' className='form-control text'
+                            {...register("zipcode", {
+                                required: {
+                                    value: true,
+                                    message: "zipcode không được để trống"
+                                }
+                            })}
+
+                        />
+                        {formState?.errors?.zipcode &&
+                            <small className='text-danger'>
+                                {formState?.errors?.zipcode?.message}
+                            </small>
+                        }
+                    </div>
+                </div>
                 <button className='btn btn-success w-100 mb-3' onClick={handleSubmit(registerSubmit)}>
                     Register
                 </button>
-                <a className='btn btn-primary w-auto me-3' href='/register'>Register</a>
+                
             </div>
         </div>
     )
