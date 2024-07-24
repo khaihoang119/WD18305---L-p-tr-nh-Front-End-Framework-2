@@ -15,6 +15,7 @@ const Login = (value) => {
         reset,
         formState,
     } = useForm();
+    
     const naviagate = useNavigate();
     const [cookie, setCookie, removeCookie] = useCookies(["token"]);
     const loging = async (value) => {

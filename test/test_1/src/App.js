@@ -10,24 +10,26 @@ import { CookiesProvider } from 'react-cookie';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
-
+import { Provider } from 'react-redux';
+import store from './redux';
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/profile' element = {< Profile />} />
+        <Route path='/profile' element={< Profile />} />
       </Route>
     )
   )
 
   return (
     <>
-      <CookiesProvider defaultSetOptions={"/"}>
-        <RouterProvider router={router} />
-      </CookiesProvider>
-
+      <Provider store={store}>
+        <CookiesProvider defaultSetOptions={"/"}>
+          <RouterProvider router={router} />
+        </CookiesProvider>
+      </Provider>
     </>
   )
 }

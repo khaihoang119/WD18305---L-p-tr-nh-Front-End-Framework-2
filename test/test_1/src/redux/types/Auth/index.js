@@ -1,0 +1,5 @@
+export default {
+    GET_INFO: 'GET_INFO',
+    UPDATE_INFO: 'UPDATE_INFO',
+    CHANGE_PASSWORD: 'CHANGE_PASSWORD',
+};
