@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 import count from "./Count";
-
+import auth from "./Auth";
 const result = combineReducers({
   count,
-  // profile,
+  auth,
   // product
 });
 

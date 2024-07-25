@@ -34,9 +34,8 @@ function* plus() {
 }
 
 function* minus() {
-
     console.log("Minus middleware");
-    
+}
 
 function* reset() {
     console.log("Reset middleware");

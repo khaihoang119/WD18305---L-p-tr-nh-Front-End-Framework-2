@@ -1,5 +1,6 @@
 import { Auth } from "../../types";
 
+
 const stateInit = {
     profile: null
 };

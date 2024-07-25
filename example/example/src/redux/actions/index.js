@@ -1,3 +1,3 @@
 import * as Count from "./Count";
-
-export { Count };
+import * as Auth  from "./Auth";
+export { Count, Auth };

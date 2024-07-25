@@ -50,7 +50,7 @@ import { Count } from "../../redux/actions";
 const Profile = () => {
   const count = useSelector((stateRedux) => stateRedux.count.count);
   const dispatch = useDispatch();
-
+  const userInfo = useSelector((state) => state.user);
   useEffect(() => {
     console.log("state components === ", count);
   }, [count]);
@@ -61,6 +61,16 @@ const Profile = () => {
 
   return (
     <div className="container">
+      <h1>Profile</h1>
+      {userInfo ? (
+        <div>
+          <p>Name: {userInfo.name}</p>
+          <p>Email: {userInfo.email}</p>
+          {/* Hiển thị thêm thông tin khác nếu cần */}
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
       <div className="row">
         <button className="btn btn-danger w-auto">{`-`}</button>
         <h1 className="text-primary w-auto">{count}</h1>
