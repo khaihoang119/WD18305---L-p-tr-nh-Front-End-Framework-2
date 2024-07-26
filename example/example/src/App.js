@@ -13,7 +13,8 @@ import store from "./redux";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
-
+import StudentList from "./pages/StudentList";
+import StudentForm from "./pages/StudentForm";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -22,6 +23,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/student-list" element={<StudentList />} />
+        <Route path="/student-form" element={<StudentForm />} />
       </Route>
     )
   );

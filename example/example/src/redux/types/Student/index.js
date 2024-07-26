@@ -1,0 +1,4 @@
+export default{
+    ADD_STUDENT: "ADD_STUDENT",
+    STUDENT_LIST_UPDATE: "STUDENT_LIST_UPDATE",
+};

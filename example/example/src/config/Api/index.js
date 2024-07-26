@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
 
-const BASE_URL = "http://172.16.21.214:3001";
+const BASE_URL = "http://10.82.60.206:3001";
 
 const request = async ({
   method = "GET",

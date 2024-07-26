@@ -1,4 +1,4 @@
 import Count from "./Count";
 import Auth from "./Auth";
-
-export { Count, Auth };
+import Student from "./Student";
+export { Count, Auth, Student };

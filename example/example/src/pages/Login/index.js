@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 //New
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { loginApi } from "../../services/Auth";
-import { getProfile } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { Auth } from "../../redux/actions";
+
 const Login = () => {
   const {
     register,
@@ -19,6 +21,15 @@ const Login = () => {
   //New
   const naviagate = useNavigate();
   const [cookie, setCookie, removeCookie] = useCookies(["token"]);
+  const dispatch = useDispatch();
+  const profile = useSelector((state) => state.auth.profile);
+
+  useEffect(() => {
+    console.log("user info ===", profile);
+    if(profile){
+      naviagate("/profile");
+    }
+  }, [profile]);
 
   const login = async (value) => {
     try {
@@ -41,7 +52,8 @@ const Login = () => {
 
         //New
         setCookie("token", res?.access_token, { expires: dateExpired });
-        naviagate("/profile");
+        dispatch(Auth.getProfile());
+        // naviagate("/profile");
       }
     } catch (err) {
       console.log("error === ", err);

@@ -50,10 +50,11 @@ import { Count } from "../../redux/actions";
 const Profile = () => {
   const count = useSelector((stateRedux) => stateRedux.count.count);
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.user);
+  const userInfo = useSelector((stateRedux) => stateRedux.auth.profile);
   useEffect(() => {
     console.log("state components === ", count);
-  }, [count]);
+    console.log("state user === ", userInfo);
+  }, [count, userInfo]);
 
   const plus = () => {
     dispatch(Count.plus());
@@ -64,9 +65,8 @@ const Profile = () => {
       <h1>Profile</h1>
       {userInfo ? (
         <div>
-          <p>Name: {userInfo.name}</p>
+          <p>Name: {userInfo.username}</p>
           <p>Email: {userInfo.email}</p>
-          {/* Hiển thị thêm thông tin khác nếu cần */}
         </div>
       ) : (
         <p>Loading...</p>
