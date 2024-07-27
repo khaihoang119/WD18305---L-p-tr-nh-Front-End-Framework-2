@@ -37,7 +37,7 @@ const StudentForm = () => {
         <button
           type="submit"
           className="btn btn-primary"
-          onClick={handleSubmit(submit())}
+          onClick={handleSubmit(submit())}         
         >
           Submit
         </button>
