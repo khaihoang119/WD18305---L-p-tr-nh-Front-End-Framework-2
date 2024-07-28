@@ -13,11 +13,20 @@ const student = (state = stateInit, action) => {
                 ...action?.payload,
             }
 
-        case Student.EDIT_STUDENT:
-            return{
-                ...state,
-                ...action?.payload,
-            }
+            case Student.EDIT_STUDENT:
+                return {
+                    ...state,
+                    students: state.students.map((student, index) =>
+                        index === parseInt(action.payload.studentIndex)
+                            ? { ...student, ...action.payload.updatedData }
+                            : student
+                    ),
+                };
+                case Student.DELETE_STUDENT:
+                    return {
+                        ...state,
+                        students: state.students.filter((_, index) => index !== action.payload),
+                    };
         default:
             return {
                 ...state

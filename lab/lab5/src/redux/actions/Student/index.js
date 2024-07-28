@@ -7,12 +7,18 @@ const addStudent = (payload) => {
     }
 }
 
-const updateStudent = (payload) => {
+const updateStudent = (studentIndex, updatedData) => {
     return {
         type: Student.EDIT_STUDENT,
-        payload,
-    }    
-}
-    
+        payload: { studentIndex, updatedData },
+    };
+};
 
-export { addStudent, updateStudent };
+const deleteStudent = (studentId) => {
+    return {
+        type: Student.DELETE_STUDENT,
+        payload: studentId,
+    };
+};   
+
+export { addStudent, updateStudent, deleteStudent };

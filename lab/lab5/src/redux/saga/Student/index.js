@@ -2,7 +2,11 @@ import {all, put, takeLatest, select} from "redux-saga/effects"
 import {Student} from "../../types"
 
 export default function* studentWatch(){
-    yield all([takeLatest(Student.ADD_STUDENT, addStudent)])
+    yield all([
+            takeLatest(Student.ADD_STUDENT, addStudent),
+            takeLatest(Student.EDIT_STUDENT, editStudent),
+            takeLatest(Student.DELETE_STUDENT, deleteStudent),   
+        ])
 }
 function* addStudent({type, payload}) {
     const students = yield select((state) => state.student.students)
@@ -20,14 +24,35 @@ function* addStudent({type, payload}) {
         }
     })
 }
-function* editStudent({type, payload}) {
-    const students = yield select((state) => state.student.students)
-    const studentIndex = students.findIndex((student) => student.id === payload.id)
-    students[studentIndex] = payload
+
+
+function* editStudent({ payload }) {
+    const students = yield select((state) => state.student.students);
+
+    const updatedStudents = students.map((student, index) =>
+        index === parseInt(payload.studentIndex)
+            ? { ...student, ...payload.updatedData }
+            : student
+    );
+
     yield put({
-        type: Student.EDIT_STUDENT,
+        type: Student.STUDENT_LIST_UPDATE,
         payload: {
-            students: [...students]
-        }
-    })
+            students: updatedStudents,
+        },
+    });
+}
+
+
+function* deleteStudent({ payload }) {
+    const students = yield select((state) => state.student.students);
+
+    const filteredStudents = students.filter((_, index) => index !== payload);
+
+    yield put({
+        type: Student.STUDENT_LIST_UPDATE,
+        payload: {
+            students: filteredStudents,
+        },
+    });
 }

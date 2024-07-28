@@ -1,84 +1,101 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Student } from "../../redux/actions";
+import { updateStudent, addStudent } from "../../redux/actions/Student";
 import { useNavigate, useParams } from "react-router-dom";
 
 const StudentForm = () => {
-  const { register, handleSubmit, setValue, reset } = useForm();
+  const { register } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
-  const student = useSelector((state) =>
-    state.student.students.find((stu) => stu.code === id)
-  );
+  const { studentIndex } = useParams();
+  const students = useSelector((state) => state.student.students);
+  const existingStudent = students[studentIndex];
+  const [formData, setFormData] = useState({
+    code: "",
+    name: "",
+    address: "",
+  });
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchStudent(id)); // Fetch student data when component mounts
+    if (studentIndex && !existingStudent) {
+      navigate("/student-list");
+    } else if (existingStudent) {
+      setFormData({
+        code: existingStudent.code,
+        name: existingStudent.name,
+        address: existingStudent.address,
+      });
     }
-  }, [id, dispatch]);
-  // Nạp dữ liệu học sinh khi có id
-  useEffect(() => {
-    if (student) {
-        // Nạp dữ liệu vào form khi student được lấy về
-        setValue("code", student.code);
-        setValue("name", student.name);
-        setValue("address", student.address);
-    }
-}, [student, setValue]);
+  }, [existingStudent, studentIndex, navigate]);
 
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
   // Hàm submit cho form
-  const submit = (value) => {
-    if (id) {
-      // Cập nhật học sinh nếu có id
-      dispatch(Student.updateStudent({ ...value }));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (existingStudent) {
+      dispatch(updateStudent(studentIndex, formData));
     } else {
-      // Thêm học sinh mới
-      dispatch(Student.addStudent({ ...value }));
+      dispatch(addStudent(formData));
     }
     navigate("/student-list");
   };
+
   return (
     <div className="container">
       <div className="col-4 offset-4">
         <h4 className="text-primary text-center mb-4">Thêm sinh viên</h4>
-        {id ? "Sửa thông tin sinh viên" : "Thêm sinh viên"}
-        <div className="mb-3">
-          <label className="form-label">Code</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="code"
-            {...register("code")}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Name</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="name"
-            {...register("name")}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Address</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="address"
-            {...register("address")}
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Code</label>
+            <input
+              type="text"
+              className="form-control"
+              id="code"
+              name="code"
+              value={formData.code}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="name"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Address</label>
+            <input
+              type="text"
+              className="form-control"
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <button
-          type="button"
-          className="btn btn-primary w-100 mb-3"
-          onClick={handleSubmit(submit)}
-        >
-          {id ? "Cập nhật" : "Thêm"} sinh viên
-        </button>
+          <button type="submit" className="btn btn-primary">
+            {existingStudent ? "Sửa" : "Thêm"}
+          </button>
+        </form>
       </div>
     </div>
   );

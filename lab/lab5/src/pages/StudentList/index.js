@@ -1,20 +1,24 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { deleteStudent } from "../../redux/actions/Student";
 
 const StudentList = () => {
-    const students = useSelector((state) => state?.student?.students);
+    const students = useSelector((state) => state.student.students);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         console.log("Students === ", students);
     }, [students]);
 
-    const handleEditClick = (id) => {
-        navigate(`/student-form/${id}`);
+    const handleEdit = (index) => {
+        navigate(`/student-form/${index}`);
     };
-    
-    
+
+    const handleDelete = (index) => {
+        dispatch(deleteStudent(index));
+    };
 
     return (
         <div className="container">
@@ -35,7 +39,7 @@ const StudentList = () => {
                 <tbody>
                     {students?.map((value, index) => {
                         return (
-                            <tr className="" key={String(index)}>
+                            <tr key={String(index)}>
                                 <th scope="row">{index + 1}</th>
                                 <td>{value?.code}</td>
                                 <td>{value?.name}</td>
@@ -44,14 +48,14 @@ const StudentList = () => {
                                     <button
                                         type="button"
                                         className="btn btn-warning me-2"
-                                        onClick={() => handleEditClick(value?.code)}
+                                        onClick={() => handleEdit(index)}
                                     >
                                         Sửa
                                     </button>
                                     <button
                                         type="button"
                                         className="btn btn-danger"
-                                      
+                                        onClick={() => handleDelete(index)}
                                     >
                                         Xóa
                                     </button>
