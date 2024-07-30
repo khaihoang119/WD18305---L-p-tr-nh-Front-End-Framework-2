@@ -27,6 +27,7 @@ const Login = () => {
   useEffect(() => {
     console.log("user info ===", profile);
     if(profile){
+      setCookie("role", profile?.role);
       naviagate("/profile");
     }
   }, [profile]);
